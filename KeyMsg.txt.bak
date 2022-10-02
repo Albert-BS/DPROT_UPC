@@ -1,0 +1,27 @@
+first:
+	msg = 9
+	key = 7e1a0bbc8c770667be44dce10c
+second:
+	msg = m
+	key = 666d3abd482b70a112f82ffd4b
+third:
+	msg = -
+	key = 3e 87 b7 f4 0c 86 18 17 62 6a 58 87 b4
+fourth:
+	msg = a
+	key = 000102030405060708090a0b0c
+
+
+k[0]: 0x3E with freq. 6
+	k[1]: 0x86 with freq. 11
+	k[2]: 0x20 with freq. 4
+	k[3]: 0x8A with freq. 7
+k[4]: 0x0C with freq. 7
+k[5]: 0x86 with freq. 14
+k[6]: 0x18 with freq. 6
+k[7]: 0x17 with freq. 7
+	k[8]: 0x61 with freq. 12
+k[9]: 0x6A with freq. 11
+k[10]: 0x58 with freq. 5
+	k[11]: 0x86 with freq. 10
+	k[12]: 0xB3 with freq. 7

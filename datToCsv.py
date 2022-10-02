@@ -3,7 +3,7 @@ import pandas as pd
 
 ### Convert .dat files to .csv files ###
 
-files_to_convert = './datFiles'
+files_to_convert = './third'
 csv_dir = './csvFiles'
 
 cd_files = sorted(os.listdir(files_to_convert))

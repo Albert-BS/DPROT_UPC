@@ -53,6 +53,7 @@ with open('./keyfile.csv', mode='r') as file:
 
         if row['IV'] == ('X0'.join('{:02X}'.format(iv)) + 'FFFF'):
             maxFreq = max(freqHistogram)
+            freq = sorted(freqHistogram, key=int, reverse=True)  # Try
             kGuess = freqHistogram.index(maxFreq)
             keyGuess.append(kGuess)
             print('k[' + str(kPos) + ']: 0x' + ''.join('{:02X}'.format(kGuess)) + ' with freq. ' + str(maxFreq))

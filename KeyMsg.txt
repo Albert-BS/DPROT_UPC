@@ -1,6 +1,6 @@
 first:
 	msg = 9
-	key = 7e1a0bbc8c770667be44dce10c
+	key = 7e 1a 0b bc 8c 77 06 67 be 44 dc e1 0c
 second:
 	msg = m
 	key = 666d3abd482b70a112f82ffd4b

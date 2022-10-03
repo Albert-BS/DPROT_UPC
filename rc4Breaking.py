@@ -20,7 +20,7 @@ with open('./messageFile.csv', mode='r') as file:
     for row in fileReader:
         for mValue in range(0, 255):
             keyStream = mValue ^ int(row['Cypher'], 16)
-            expectedValue = (int(row['IV'][-2:], 16) + 2) % 255
+            expectedValue = (int(row['IV'][-2:], 16) + 2) % 256
             if keyStream == expectedValue:
                 freqHistogram[mValue] += 1
 
@@ -47,13 +47,12 @@ with open('./keyfile.csv', mode='r') as file:
 
         for kValue in range(0, 255):
             keyStream = mesGuess ^ int(row['Cypher'], 16)
-            expectedValue = (int(row['IV'][-2:], 16) + incrementX + kValue) % 255  # Second fact #
+            expectedValue = (int(row['IV'][-2:], 16) + kValue + incrementX) % 256  # Second fact #
             if keyStream == expectedValue:
                 freqHistogram[kValue] += 1
 
         if row['IV'] == ('X0'.join('{:02X}'.format(iv)) + 'FFFF'):
             maxFreq = max(freqHistogram)
-            freq = sorted(freqHistogram, key=int, reverse=True)  # Try
             kGuess = freqHistogram.index(maxFreq)
             keyGuess.append(kGuess)
             print('k[' + str(kPos) + ']: 0x' + ''.join('{:02X}'.format(kGuess)) + ' with freq. ' + str(maxFreq))

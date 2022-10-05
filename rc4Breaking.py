@@ -20,14 +20,14 @@ with open('./messageFile.csv', mode='r') as file:
     for row in fileReader:
         for mValue in range(0, 255):
             keyStream = mValue ^ int(row['Cypher'], 16)
-            expectedValue = (int(row['IV'][-2:], 16) + 2) % 256
+            expectedValue = (int(row['IV'][-2:], 16) + 2) % 256 # Last byte of the IV value (x) #
             if keyStream == expectedValue:
                 freqHistogram[mValue] += 1
 
 maxFreq = max(freqHistogram)
 mesGuess = freqHistogram.index(maxFreq)
 print('m[0]: ' + chr(mesGuess) + ' with freq. ' + str(maxFreq))
-# print(str(chr(mesGuess) == message))  # If we know the message #
+# print('m[0]: ' + chr(mesGuess) + ' with freq. ' + str(maxFreq) + ' ' + str(chr(mesGuess) == message))  # If we know the message #
 print('===============')
 
 # Guessing key #
@@ -40,7 +40,7 @@ kPos = 0
 with open('./keyfile.csv', mode='r') as file:
     fileReader = csv.DictReader(file)
     for row in fileReader:
-        if row['IV'] == ('X0'.join('{:02X}'.format(iv)) + 'FF00'):
+        if row['IV'] == ('X0'.join('{:02X}'.format(iv)) + 'FF00'): # Cast to hex to the IV #
             freqHistogram = []
             for i in range(0, 255):
                 freqHistogram.append(0)
@@ -56,7 +56,7 @@ with open('./keyfile.csv', mode='r') as file:
             kGuess = freqHistogram.index(maxFreq)
             keyGuess.append(kGuess)
             print('k[' + str(kPos) + ']: 0x' + ''.join('{:02X}'.format(kGuess)) + ' with freq. ' + str(maxFreq))
-            # print(str(kGuess == int(key[kPos * 2: kPos * 2 + 2], 16))) # If we know the key #
+            # print('k[' + str(kPos) + ']: 0x' + ''.join('{:02X}'.format(kGuess)) + ' with freq. ' + str(maxFreq) + ' ' + str(kGuess == int(key[kPos * 2: kPos * 2 + 2], 16))) # If we know the key #
 
             iv += 1
             incrementX += iv + kGuess

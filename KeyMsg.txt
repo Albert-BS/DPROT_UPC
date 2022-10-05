@@ -1,12 +1,12 @@
 first:
 	msg = 9
-	key = 7e 1a 0b bc 8c 77 06 67 be 44 dc e1 0c
+	key = 7e1a0bbc8c770667be44dce10c
 second:
 	msg = m
 	key = 666d3abd482b70a112f82ffd4b
 third:
 	msg = -
-	key = 3e 87 b7 f4 0c 86 18 17 62 6a 58 87 b4
+	key = 3e87b7f40c861817626a5887b4
 fourth:
 	msg = a
 	key = 000102030405060708090a0b0c

@@ -15,7 +15,7 @@ for i in range(0, 255):
     freqHistogram.append(0)
 
 # Guessing message #
-with open('./messageFile.csv', mode='r') as file:
+with open('DecryptWeb/messageFile.csv', mode='r') as file:
     fileReader = csv.DictReader(file)
     for row in fileReader:
         for mValue in range(0, 255):
@@ -37,7 +37,7 @@ iv = 3  # Initial value of the first IV when guessing the key #
 incrementX = 6  # Initial increment using the 'second fact: x + 6 + k[0]', it will increment when changing the IV #
 kPos = 0
 
-with open('./keyfile.csv', mode='r') as file:
+with open('DecryptWeb/keyfile.csv', mode='r') as file:
     fileReader = csv.DictReader(file)
     for row in fileReader:
         if row['IV'] == ('X0'.join('{:02X}'.format(iv)) + 'FF00'): # Cast to hex to the IV #

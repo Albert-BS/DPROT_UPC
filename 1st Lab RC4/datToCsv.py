@@ -4,7 +4,7 @@ import pandas as pd
 ### Convert .dat files to .csv files ###
 
 files_to_convert = './third'  # Folder of the files corresponding to the execution example
-csv_dir = './csvFiles'
+csv_dir = 'csvFiles'
 
 cd_files = sorted(os.listdir(files_to_convert))
 
@@ -39,11 +39,11 @@ df.to_csv('./csvFiles/filesMerged.csv', index=False)
 
 ### Add headers to final .csv files ###
 
-key = pd.read_csv('./csvFiles/filesMerged.csv')
+key = pd.read_csv('csvFiles/filesMerged.csv')
 key.rename({'0': 'IV', '1': 'Cypher'}, axis=1, inplace=True)
 key.to_csv('./keyfile.csv', index=False)
 
-message = pd.read_csv('./csvFiles/bytes_01FFxx.csv')
+message = pd.read_csv('csvFiles/bytes_01FFxx.csv')
 message.rename({'0': 'IV', '1': 'Cypher'}, axis=1, inplace=True)
 message.to_csv('./messageFile.csv', index=False)
 

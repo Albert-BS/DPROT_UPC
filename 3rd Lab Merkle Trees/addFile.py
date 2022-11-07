@@ -21,22 +21,20 @@ f.write(info_nodes)  # Write previous files: 0:0 to 0:num_hashes-1
 f.close()
 os.system("echo -n '" + str(0) + ":" + str(num_hashes) + ":' >> temp.txt")  # Adding the new node
 os.system("cat " + nodes_path + "node" + str(0) + "." + str(num_hashes) + " >> temp.txt")
-# num_hashes = num_hashes + 1
 
 i = 0
 j = num_hashes
 while j > 0:
     i = i + 1
     odd = j % 2
-    j = j/2
+    j = int(j/2)
     if odd == 1:
         os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j) + " "
-                  + nodes_path + "node" + str(i-1) + " " + str(2 * j + 1) + " | openssl dgst -sha1 -binary | xxd -p > "
+                  + nodes_path + "node" + str(i-1) + "." + str(2 * j + 1) + " | openssl dgst -sha1 -binary | xxd -p > "
                   + nodes_path + "node" + str(i) + "." + str(j))
     else:
         os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j)
                   + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(i) + "." + str(j))
-
     os.system("echo -n '" + str(i) + "." + str(j) + ":' >> temp.txt")
     os.system("cat " + nodes_path + "node" + str(i) + "." + str(j) + " >> temp.txt")
 

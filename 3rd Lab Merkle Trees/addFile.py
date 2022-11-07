@@ -38,6 +38,20 @@ while j > 0:
     os.system("echo -n '" + str(i) + "." + str(j) + ":' >> temp.txt")
     os.system("cat " + nodes_path + "node" + str(i) + "." + str(j) + " >> temp.txt")
 
+n = num_hashes
+layer = 0
+while n > 1:
+    counter = 0
+    for k in range(0, n, 2):
+        os.system("echo -n '" + str(layer + 1) + ":" + str(counter) + ":' >> temp.txt")
+        os.system("cat " + nodes_path + "node" + str(layer+1) + "." + str(counter) + " >> temp.txt")
+        counter = counter + 1
+    layer = layer + 1
+    if n % 2 == 1:
+        n = int(n/2) + 1
+    else:
+        n = int(n/2)
+
 root_hash = os.popen("cat " + nodes_path + "node" + str(i) + ".0").read()
 public_info = "MerkleTree:sha1:3C3C3C3C:F5F5F5F5:" + str(num_hashes) + ":" + str(
     i + 1) + ":" + root_hash  # Recomputing the public info of the hash tree

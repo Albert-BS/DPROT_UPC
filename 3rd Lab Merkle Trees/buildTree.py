@@ -1,7 +1,7 @@
 import os
 
-
 nodes_path = "./nodes/"
+
 
 def createLayer(layerIndex, nFiles):
     counter = 0
@@ -11,8 +11,10 @@ def createLayer(layerIndex, nFiles):
                       + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(layerIndex + 1) + "."
                       + str(counter))
         else:
-            os.system("cat node.pre " + nodes_path + "node" + str(layerIndex) + "." + str(j) + " " + nodes_path + "node" + str(layerIndex) + "."
-                      + str(j + 1) + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(layerIndex + 1)
+            os.system("cat node.pre " + nodes_path + "node" + str(layerIndex) + "." + str(
+                j) + " " + nodes_path + "node" + str(layerIndex) + "."
+                      + str(j + 1) + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(
+                layerIndex + 1)
                       + "." + str(counter))
 
         os.system("echo -n '" + str(layerIndex + 1) + ":" + str(counter) + ":' >> temp.txt")
@@ -30,7 +32,8 @@ docs_files = os.listdir(docs_path)
 n = len(docs_files)  # Number of files in the "docs" directory
 
 for i in range(n):
-    os.system("cat doc.pre " + docs_path + docs_files[i] + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node0." + str(i))
+    os.system("cat doc.pre " + docs_path + docs_files[
+        i] + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node0." + str(i))
     os.system("echo -n '" + str(0) + ":" + str(i) + ":' >> temp.txt")
     os.system("cat " + nodes_path + "node" + str(0) + "." + str(i) + " >> temp.txt")
 

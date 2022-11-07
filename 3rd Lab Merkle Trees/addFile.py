@@ -2,25 +2,6 @@ import os
 
 nodes_path = "./nodes/"
 
-
-def createLayer(layerIndex, nFiles):
-    counter = 0
-    for j in range(0, nFiles, 2):
-        if j == nFiles - 1 and nFiles % 2 == 1:
-            os.system("cat node.pre " + nodes_path + "node" + str(layerIndex) + "." + str(j)
-                      + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(layerIndex + 1) + "."
-                      + str(counter))
-        else:
-            os.system(
-                "cat node.pre " + nodes_path + "node" + str(layerIndex) + "." + str(j) + " node" + str(layerIndex) + "."
-                + str(j + 1) + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(layerIndex + 1)
-                + "." + str(counter))
-
-        os.system("echo -n '" + str(layerIndex + 1) + ":" + str(counter) + ":' >> temp.txt")
-        os.system("cat " + nodes_path + "node" + str(layerIndex + 1) + "." + str(counter) + " >> temp.txt")
-        counter = counter + 1
-
-
 doc_path = input("Introduce the full path of the file you want to add:")
 
 f = open("hash_tree.txt", "r")

@@ -49,21 +49,19 @@ while j > 0:
     odd = j % 2
     j = j/2
     if odd == 1:
-        os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j) + " " + nodes_path + "node" + str(i-1) + " " + str(2 * j + 1)) + " | openssl dgst -sha1 -binary |"
-# Modify
-layer = 0
-while num_hashes > 1:  # Determine if it is necessary to create another layer or the root is reached
-    createLayer(layer, num_hashes)
-    layer = layer + 1
-
-    if num_hashes % 2 == 1:
-        num_hashes = int(num_hashes / 2) + 1
+        os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j) + " "
+                  + nodes_path + "node" + str(i-1) + " " + str(2 * j + 1) + " | openssl dgst -sha1 -binary | xxd -p > "
+                  + nodes_path + "node" + str(i) + "." + str(j))
     else:
-        num_hashes = int(num_hashes / 2)
+        os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j)
+                  + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(i) + "." + str(j))
 
-root_hash = os.popen("cat " + nodes_path + "node" + str(layer) + ".0").read()
+    os.system("echo -n '" + str(i) + "." + str(j) + ":' >> temp.txt")
+    os.system("cat " + nodes_path + "node" + str(i) + "." + str(j) + " >> temp.txt")
+
+root_hash = os.popen("cat " + nodes_path + "node" + str(i) + ".0").read()
 public_info = "MerkleTree:sha1:3C3C3C3C:F5F5F5F5:" + str(num_hashes) + ":" + str(
-    layer + 1) + ":" + root_hash  # Recomputing the public info of the hash tree
+    i + 1) + ":" + root_hash  # Recomputing the public info of the hash tree
 
 os.system("echo -n '" + public_info + "' > hash_tree.txt")
 os.system("cat temp.txt >> hash_tree.txt")  # Appends the private info of the nodes to the hash tree file

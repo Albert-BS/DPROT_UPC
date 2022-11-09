@@ -41,13 +41,11 @@ while j > 0:
     else:
         os.system("cat node.pre " + nodes_path + "node" + str(i-1) + "." + str(2 * j)
                   + " | openssl dgst -sha1 -binary | xxd -p > " + nodes_path + "node" + str(i) + "." + str(j))
-#    os.system("echo -n '" + str(i) + "." + str(j) + ":' >> temp.txt")
-#    os.system("cat " + nodes_path + "node" + str(i) + "." + str(j) + " >> temp.txt")
 
 #  Print again all the nodes from 1:0 to the root one in order
 
 layer = 0
-n = num_hashes
+n = num_hashes+1  # Increment by 1 since we added a new node
 while n > 1:
     counter = 0
     for k in range(0, n, 2):
@@ -63,7 +61,7 @@ while n > 1:
         n = int(n/2)
 
 root_hash = os.popen("cat " + nodes_path + "node" + str(i) + ".0").read()
-public_info = "MerkleTree:sha1:3C3C3C3C:F5F5F5F5:" + str(num_hashes) + ":" + str(
+public_info = "MerkleTree:sha1:3C3C3C3C:F5F5F5F5:" + str(num_hashes+1) + ":" + str(
     i + 1) + ":" + root_hash
 
 os.system("echo -n '" + public_info + "' > hash_tree.txt")

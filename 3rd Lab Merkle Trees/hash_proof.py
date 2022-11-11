@@ -1,19 +1,17 @@
 import math
 import os
-import time
 import math
 
+docs_path = "./docs/"
+text=open('hash_tree.txt','r')
+lines=text.readlines()
 
+N=int(lines[0].split(':')[-2]) ## Number of layers
+i=0 
+j=int(input("Position of the document:"))
+print(N,j)
 
-file_path = []
-file_path.append(input("Type the path of the node that you want to verify:"))
-print(file_path[0])
-n= input("Type the number of documents the hash tree contains:")  
-N = math.trunc(math.log(int(n),2))+2
-print("Number of layers: ",N)
-
-i=int(file_path[0][4])
-j=int(file_path[0][6])
+os.system( "cat doc.pre "+docs_path+"doc"+str(j)+" | openssl dgst -sha1 -binary | xxd -p > node0."+str(j))
 
 nodes=[None]*(N-1)
 for k in range(N-1):
@@ -27,12 +25,10 @@ for k in range(N-1):
 print("List of nodes that we need to verify the proof: ",nodes)
 
 i=0
-text=open('hash_tree.txt','r')
+
 proof=open('proof.txt','w')
-lines=text.readlines()
+proof.write(lines[0])
 for line in lines:
-    if("MerkleTree" in line):
-        end_node=line.split(':')[-1]
     if(i==N-1):
         break
     if nodes[i] in line:
@@ -45,40 +41,36 @@ proof.close()
 ## TEST
 
 i=0
+j=int(input("Position of the document:"))
 proof=open('proof.txt','r')
 lines=proof.readlines()
 for line in lines:
-    next_node=((line.split(":"))[-1]).split('\n')[0]
-    print('Next node: ',next_node)
-    command="echo '"+next_node+"' >next_node"+str(i)
-    os.system(command)
-
-    if(i==0):
-        if((line.split(":")[1])>(file_path[0]).split('.')[-1]):
-            nodes_c= file_path[0]+" next_node"+str(i)
-        else:
-            nodes_c= "next_node"+str(i)+" "+file_path[0]
-
-        #print(nodes_c)
-
-        os.popen("cat node.pre "+nodes_c+" | openssl dgst -sha1 -binary | xxd -p > node"+str(i))
-        time.sleep(1)
-        print('node0: ',os.popen('cat node'+str(i)).read())
+    if("MerkleTree" in line):
+        end_node=line.split(':')[-1]
     else:
-        if((line.split(":")[1])>aux):
-            nodes_c= "node"+str(i-1)+" next_node"+str(i)
+        next_node=((line.split(":"))[-1]).split('\n')[0]
+        print('Next node: ',next_node)
+
+        command="echo '"+next_node+"' >node"+line.split(":")[0]+"."+line.split(":")[1]
+        print(command)
+        os.system(command)
+
+        if((int(line.split(":")[1]))>j):
+            nodes_c= "node"+str(i)+"."+str(j)+" node"+line.split(":")[0]+"."+line.split(":")[1]
         else:
-            nodes_c= "next_node"+str(i)+" node"+str(i-1)
+            nodes_c= "node"+line.split(":")[0]+"."+line.split(":")[1]+" node"+str(i)+"."+str(j)
+            
 
         print(nodes_c)
-        os.system("cat node.pre "+nodes_c+" | openssl dgst -sha1 -binary | xxd -p > node"+str(i))
-        print('node'+str(i)+': ',os.popen('cat node'+str(i)).read())
 
-    i=i+1
-    aux=(line.split(":")[1])
+        j=math.trunc(j/2)
+        print(j)
+        i=i+1
+        os.popen("cat node.pre "+nodes_c+" | openssl dgst -sha1 -binary | xxd -p > node"+str(i)+"."+str(j))
+        print('>> node'+str(i)+"."+str(j),os.popen('cat node'+str(i)+"."+str(j)).read())
 
 
-last_node=os.popen('cat node'+str(i-1)).read()
+last_node=os.popen('cat node'+str(i)+"."+str(j)).read()
 
 if(last_node==end_node):
     print("OK")
